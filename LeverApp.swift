@@ -2,7 +2,15 @@ import SwiftUI
 
 @main
 struct LeverApp: App {
-    @State private var appState = AppState()
+    @State private var appState: AppState
+
+    init() {
+        let state = AppState()
+        if let savedState = StorageService.shared.load() {
+            state.load(from: savedState)
+        }
+        _appState = State(initialValue: state)
+    }
 
     var body: some Scene {
         WindowGroup {
